@@ -1,5 +1,7 @@
 
 import 'package:flutter/material.dart';
+import 'package:themoviedb/Library/Widgets/Inhereted/provider.dart';
+import 'package:themoviedb/main_screen/main_screen_model.dart';
 
 import '../../main_screen/main_screen_widget.dart';
 import '../../widgets/auth/auth_model.dart';
@@ -17,8 +19,8 @@ class MainNavigation {
       ? MainNavigationRouteNames.mainScreen
       : MainNavigationRouteNames.auth;
   final routes = <String, Widget Function(BuildContext)>{
-    MainNavigationRouteNames.auth: (context) => AuthProvider(model: AuthModel(), child: AuthWidget()),
-    MainNavigationRouteNames.mainScreen: (context) => MainScreenWidget(),
+    MainNavigationRouteNames.auth: (context) => NotifierProvider(model: AuthModel(), child: AuthWidget()),
+    MainNavigationRouteNames.mainScreen: (context) => NotifierProvider(model: MainScreenModel(), child: const MainScreenWidget(),),
     MainNavigationRouteNames.movieDetails: (context) {
       final arguments = ModalRoute.of(context)?.settings.arguments;
       if (arguments is int) {

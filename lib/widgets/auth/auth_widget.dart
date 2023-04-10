@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:themoviedb/Library/Widgets/Inhereted/provider.dart';
 import 'package:themoviedb/Theme/app_button_style.dart';
-import 'package:themoviedb/main_screen/main_screen_widget.dart';
 import 'package:themoviedb/widgets/auth/auth_model.dart';
 
 class AuthWidget extends StatefulWidget {
@@ -32,7 +32,7 @@ class _HeaderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textStyle = TextStyle(
+    const textStyle = TextStyle(
       fontSize: 16,
       color: Colors.black,
     );
@@ -41,8 +41,8 @@ class _HeaderWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 25),
-          Text(
+          const SizedBox(height: 25),
+          const Text(
             'In order to use the editing and rating capabilities of TMDB, as well as get personal'
             ' recommendations you will need to login to your account. If you do not have an account, registering'
             ' for an account is free and simple.',
@@ -51,17 +51,17 @@ class _HeaderWidget extends StatelessWidget {
           TextButton(
             style: AppButtonStyle.linkButton,
             onPressed: () {},
-            child: Text("Register"),
+            child: const Text("Register"),
           ),
-          SizedBox(height: 25),
-          Text(
+          const SizedBox(height: 25),
+          const Text(
             'If you signed up but didn\'t get your verification email.',
             style: textStyle,
           ),
           TextButton(
             style: AppButtonStyle.linkButton,
             onPressed: () {},
-            child: Text("Verify email"),
+            child: const Text("Verify email"),
           ),
         ],
       ),
@@ -74,7 +74,7 @@ class _FormWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = AuthProvider.read(context)?.model;
+    final model = NotifierProvider.read<AuthModel>(context);
     const textStyle = TextStyle(
       fontSize: 16,
       color: Color(0xF2212529),
@@ -86,7 +86,7 @@ class _FormWidget extends StatelessWidget {
       isCollapsed: true,
     );
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -118,8 +118,8 @@ class _FormWidget extends StatelessWidget {
               const SizedBox(width: 30),
               TextButton(
                   onPressed: () {},
-                  child: const Text("Reset password"),
-                  style: AppButtonStyle.linkButton),
+                  style: AppButtonStyle.linkButton,
+                  child: const Text("Reset password")),
             ],
           )
         ],
@@ -135,7 +135,7 @@ class _AuthButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = AuthProvider.watch(context)?.model;
+    final model = NotifierProvider.watch<AuthModel>(context);
     const color = Color(0xFF01B4E4);
     final onPressed =
         model?.canStartAuth == true ? () => model?.auth(context) : null;
@@ -176,7 +176,8 @@ class _ErrorMessageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final errorMessage = AuthProvider.watch(context)?.model.errorMessage;
+    final errorMessage =
+        NotifierProvider.watch<AuthModel>(context)?.errorMessage;
     if (errorMessage == null) return const SizedBox.shrink();
     return Padding(
       padding: const EdgeInsets.only(bottom: 20),
