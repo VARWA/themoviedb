@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:themoviedb/domain/api_client/api_client.dart';
@@ -38,8 +39,20 @@ class AuthModel extends ChangeNotifier {
         username: login,
         password: password,
       );
-    } catch (e) {
-      _errorMessage = 'Неправильный логин или пароль';
+    } on ApiClientException catch (e) {
+      switch (e.type) {
+        case ApiClientExceptionType.Network:
+          _errorMessage =
+              'Сервер недоступен. Проверьте подключение к интернету';
+          break;
+        case ApiClientExceptionType.Auth:
+          _errorMessage = 'Неправильный логин или пароль';
+          break;
+        case ApiClientExceptionType.Other:
+          _errorMessage = 'Произошла ошибка. Попробуйте еще раз';
+          break;
+      }
+      _errorMessage = 'Сервер недоступен';
     }
     _isAuthProgress = false;
     if (_errorMessage != null) {
@@ -56,4 +69,3 @@ class AuthModel extends ChangeNotifier {
         .pushReplacementNamed(MainNavigationRouteNames.mainScreen));
   }
 }
-
