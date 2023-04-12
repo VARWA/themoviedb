@@ -60,45 +60,44 @@ class ApiClient {
       throw ApiClientException(ApiClientExceptionType.Other);
     }
   }
-Future<T> _post<T>(String path,
+
+  Future<T> _post<T>(
+    String path,
+    Map<String, dynamic>? bodyParameters,
     T Function(dynamic json) parser, [
-      Map<String, dynamic>? parameters,
-    ]) async {
-  try {
-    final url = _makeUri(
-      '/authentication/token/validate_with_login',
-      <String, dynamic>{'api_key': _apiKey},
-    );
-    final parameters = <String, dynamic>{
-      'username': username,
-      'password': password,
-      'request_token': requestToken,
-    };
-    final request = await _client.postUrl(url);
-    request.headers.contentType = ContentType.json;
-    request.write(jsonEncode(parameters));
-    final response = await request.close();
-    final json = (await response.jsonDecode()) as Map<String, dynamic>;
+    Map<String, dynamic>? urlParameters,
+  ]) async {
+    try {
+      final url = _makeUri(
+        path,
+        urlParameters,
+      );
 
-    _validateResponse(response, json);
+      final request = await _client.postUrl(url);
+      request.headers.contentType = ContentType.json;
+      request.write(jsonEncode(bodyParameters));
+      final response = await request.close();
+      final dynamic json = (await response.jsonDecode());
 
-    final token = json['request_token'] as String;
-    return token;
-  } on SocketException {
-    throw ApiClientException(ApiClientExceptionType.Network);
-  } on ApiClientException {
-    rethrow;
-  } catch (_) {
-    throw ApiClientException(ApiClientExceptionType.Other);
+      _validateResponse(response, json);
+
+      final result = parser(json);
+      return result;
+    } on SocketException {
+      throw ApiClientException(ApiClientExceptionType.Network);
+    } on ApiClientException {
+      rethrow;
+    } catch (_) {
+      throw ApiClientException(ApiClientExceptionType.Other);
+    }
   }
-}
+
   Future<String> _makeToken() async {
     String parser(dynamic json) {
       final jsonMap = json as Map<String, dynamic>;
       final token = jsonMap['request_token'] as String;
       return token;
     }
-
 
     final result = _get(
       '/authentication/token/new',
@@ -113,62 +112,40 @@ Future<T> _post<T>(String path,
     required String password,
     required String requestToken,
   }) async {
-    try {
-      final url = _makeUri(
-        '/authentication/token/validate_with_login',
-        <String, dynamic>{'api_key': _apiKey},
-      );
-      final parameters = <String, dynamic>{
-        'username': username,
-        'password': password,
-        'request_token': requestToken,
-      };
-      final request = await _client.postUrl(url);
-      request.headers.contentType = ContentType.json;
-      request.write(jsonEncode(parameters));
-      final response = await request.close();
-      final json = (await response.jsonDecode()) as Map<String, dynamic>;
-
-      _validateResponse(response, json);
-
-      final token = json['request_token'] as String;
-      return token;
-    } on SocketException {
-      throw ApiClientException(ApiClientExceptionType.Network);
-    } on ApiClientException {
-      rethrow;
-    } catch (_) {
-      throw ApiClientException(ApiClientExceptionType.Other);
+    String parser(dynamic json) {
+      final jsonMap = json as Map<String, dynamic>;
+      final sessionId = json['session_id'] as String;
+      return sessionId;
     }
+
+    final parameters = <String, dynamic>{
+      'username': username,
+      'password': password,
+      'request_token': requestToken,
+    };
+    final result = _post('/authentication/token/validate_with_login',
+        parameters, parser, <String, dynamic>{'api_key': _apiKey});
+
+    return result;
   }
 
   Future<String> _makeSession({
     required String requestToken,
   }) async {
-    try {
-      final url = _makeUri(
-        '/authentication/session/new',
-        <String, dynamic>{'api_key': _apiKey},
-      );
-      final parameters = <String, dynamic>{
-        'request_token': requestToken,
-      };
-      final request = await _client.postUrl(url);
-
-      request.headers.contentType = ContentType.json;
-      request.write(jsonEncode(parameters));
-      final response = await request.close();
-      final json = (await response.jsonDecode()) as Map<String, dynamic>;
-      final sessionId = json['session_id'] as String;
-      _validateResponse(response, json);
+    parser(dynamic json) {
+      final jsonMap = json as Map<String, dynamic>;
+      final sessionId = jsonMap['session_id'] as String;
       return sessionId;
-    } on SocketException {
-      throw ApiClientException(ApiClientExceptionType.Network);
-    } on ApiClientException {
-      rethrow;
-    } catch (_) {
-      throw ApiClientException(ApiClientExceptionType.Other);
     }
+
+    final parameters = <String, dynamic>{
+      'request_token': requestToken,
+    };
+    final result = _post(
+        '/authentication/session/new', parameters, parser, <String, dynamic>{
+      'api_key': _apiKey,
+    });
+    return result;
   }
 }
 
