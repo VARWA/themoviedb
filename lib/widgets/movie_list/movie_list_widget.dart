@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:themoviedb/Library/Widgets/Inhereted/provider.dart';
-
 import 'movie_list_model.dart';
 
 class MovieListWidget extends StatelessWidget {
