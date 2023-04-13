@@ -1,116 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:themoviedb/resources/resources.dart';
-import 'package:themoviedb/ui/navigation/main_navigation.dart';
+import 'package:themoviedb/Library/Widgets/Inhereted/provider.dart';
 
-class Movie {
-  final int id;
-  final String imageName;
-  final String title;
-  final String time;
-  final String description;
+import 'movie_list_model.dart';
 
-  Movie({
-    required this.id,
-    required this.imageName,
-    required this.title,
-    required this.time,
-    required this.description,
-  });
-}
-
-class MovieListWidget extends StatefulWidget {
-  MovieListWidget({Key? key}) : super(key: key);
-
-  @override
-  State<MovieListWidget> createState() => _MovieListWidgetState();
-}
-
-class _MovieListWidgetState extends State<MovieListWidget> {
-  final _movies = [
-    Movie(
-        id: 1,
-        imageName: AppImages.mtCombat,
-        title: "Еда и мы",
-        time: 'April 7, 2021',
-        description: 'mvkmwkmmkmkmkmkm'),
-    Movie(
-        id: 2,
-        imageName: AppImages.mtCombat,
-        title: "Еда и мы",
-        time: 'April 7, 2021',
-        description: 'mvkmwkmmkmkmkmkm'),
-    Movie(
-        id: 3,
-        imageName: AppImages.mtCombat,
-        title: "food and we",
-        time: 'April 7, 2021',
-        description: 'mvkmwkmmkmkmkmkm'),
-    Movie(
-        id: 4,
-        imageName: AppImages.mtCombat,
-        title: "Еда и мы",
-        time: 'April 7, 2021',
-        description: 'mvkmwkmmkmkmkmkm'),
-    Movie(
-        id: 5,
-        imageName: AppImages.mtCombat,
-        title: "Еда и мы",
-        time: 'April 7, 2021',
-        description: 'mvkmwkmmkmkmkmkm'),
-    Movie(
-        id: 6,
-        imageName: AppImages.mtCombat,
-        title: "Жизнь и мы",
-        time: 'April 7, 2021',
-        description: 'mvkmwkmmkmkmkmkm'),
-    Movie(
-        id: 7,
-        imageName: AppImages.mtCombat,
-        title: "Еда и мы",
-        time: 'April 7, 2021',
-        description: 'mvkmwkmmkmkmkmkm')
-  ];
-  var _filteredMovies = <Movie>[];
-  final _searchController = TextEditingController();
-
-  void _searchMovies() {
-    final query = _searchController.text;
-    if (query.isNotEmpty) {
-      _filteredMovies = _movies.where((Movie movie) {
-        return movie.title.toLowerCase().contains(query.toLowerCase());
-      }).toList();
-    } else {
-      _filteredMovies = _movies;
-    }
-    setState(() {});
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _searchMovies();
-    _searchController.addListener(_searchMovies);
-  }
-
-  void _onMovieTap(int index) {
-    final id = _movies[index].id;
-    Navigator.of(context)
-        .pushNamed(MainNavigationRouteNames.movieDetails, arguments: id);
-  }
+class MovieListWidget extends StatelessWidget {
+  const MovieListWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final model = NotifierProvider.watch<MovieListModel>(context);
+    if (model == null) return const SizedBox.shrink();
     return Stack(
       children: [
         ListView.builder(
-            padding: EdgeInsets.only(top: 70),
+            padding: const EdgeInsets.only(top: 70),
             keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-            itemCount: _filteredMovies.length,
+            itemCount: model.movies.length ?? 0,
             itemExtent: 163,
             itemBuilder: (BuildContext context, int index) {
-              final movie = _filteredMovies[index];
+              final movie = model.movies[index];
               return Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                 child: Stack(
                   children: [
                     Container(
@@ -118,20 +29,21 @@ class _MovieListWidgetState extends State<MovieListWidget> {
                         color: Colors.white,
                         border:
                             Border.all(color: Colors.black.withOpacity(0.2)),
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withOpacity(0.1),
                             blurRadius: 8,
-                            offset: Offset(0, 2),
+                            offset: const Offset(0, 2),
                           )
                         ],
                       ),
                       clipBehavior: Clip.hardEdge,
                       child: Row(
                         children: [
-                          Image(image: AssetImage(movie.imageName)),
-                          SizedBox(
+                          //  Image(image: AssetImage(movie.imageName)),
+                          const SizedBox(
                             width: 15,
                           ),
                           Expanded(
@@ -145,25 +57,25 @@ class _MovieListWidgetState extends State<MovieListWidget> {
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
-                                SizedBox(height: 5),
+                                const SizedBox(height: 5),
                                 Text(
-                                  movie.time,
-                                  style: TextStyle(
+                                  movie.releaseDate?.toString() ?? "2525235",
+                                  style: const TextStyle(
                                     color: Colors.grey,
                                   ),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
-                                SizedBox(height: 20),
+                                const SizedBox(height: 20),
                                 Text(
-                                  movie.description,
+                                  movie.overview,
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                 )
                               ],
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           )
                         ],
@@ -173,7 +85,7 @@ class _MovieListWidgetState extends State<MovieListWidget> {
                       color: Colors.transparent,
                       child: InkWell(
                         borderRadius: BorderRadius.circular(10),
-                        onTap: () => _onMovieTap(index),
+                        onTap: () => model.onMovieTap(context, index),
                       ),
                     )
                   ],
@@ -183,13 +95,12 @@ class _MovieListWidgetState extends State<MovieListWidget> {
         Padding(
           padding: const EdgeInsets.all(10.0),
           child: TextField(
-              controller: _searchController,
               decoration: InputDecoration(
-                labelText: 'Поиск',
-                filled: true,
-                fillColor: Colors.white.withAlpha(235),
-                border: OutlineInputBorder(),
-              )),
+            labelText: 'Поиск',
+            filled: true,
+            fillColor: Colors.white.withAlpha(235),
+            border: const OutlineInputBorder(),
+          )),
         )
       ],
     );
