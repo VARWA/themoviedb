@@ -18,6 +18,7 @@ class MovieListWidget extends StatelessWidget {
             itemExtent: 163,
             itemBuilder: (BuildContext context, int index) {
               final movie = model.movies[index];
+              final posterPath = movie.posterPath;
               return Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
@@ -42,6 +43,13 @@ class MovieListWidget extends StatelessWidget {
                       child: Row(
                         children: [
                           //  Image(image: AssetImage(movie.imageName)),
+                          posterPath != null
+                              ? Image.network(
+                                  posterPath,
+                                  width: 95,
+                                )
+                              : SizedBox.shrink(),
+
                           const SizedBox(
                             width: 15,
                           ),
