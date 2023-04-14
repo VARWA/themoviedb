@@ -21,11 +21,18 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
       _selectedTab = index;
     });
   }
-@override
+
+  @override
   void initState() {
     super.initState();
-    movieListModel.loadMovies();
   }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    movieListModel.setupLocale(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
