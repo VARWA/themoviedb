@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:themoviedb/Library/Widgets/Inhereted/provider.dart';
 import 'package:themoviedb/domain/api_client/api_client.dart';
+
 import 'movie_list_model.dart';
 
 class MovieListWidget extends StatelessWidget {
@@ -18,6 +19,7 @@ class MovieListWidget extends StatelessWidget {
             itemCount: model.movies.length ?? 0,
             itemExtent: 163,
             itemBuilder: (BuildContext context, int index) {
+              model.showedMovieAtIndex(index);
               final movie = model.movies[index];
               final posterPath = movie.posterPath;
               return Padding(
@@ -49,7 +51,7 @@ class MovieListWidget extends StatelessWidget {
                                   ApiClient.imageUrl(posterPath),
                                   width: 95,
                                 )
-                              : SizedBox.shrink(),
+                              : const SizedBox.shrink(),
 
                           const SizedBox(
                             width: 15,
