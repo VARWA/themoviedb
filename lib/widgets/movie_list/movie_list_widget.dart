@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:themoviedb/Library/Widgets/Inhereted/provider.dart';
+import 'package:themoviedb/domain/api_client/api_client.dart';
 import 'movie_list_model.dart';
 
 class MovieListWidget extends StatelessWidget {
@@ -45,7 +47,7 @@ class MovieListWidget extends StatelessWidget {
                           //  Image(image: AssetImage(movie.imageName)),
                           posterPath != null
                               ? Image.network(
-                                  posterPath,
+                                  ApiClient.imageUrl(posterPath),
                                   width: 95,
                                 )
                               : SizedBox.shrink(),
@@ -66,7 +68,7 @@ class MovieListWidget extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 5),
                                 Text(
-                                  movie.releaseDate?.toString() ?? "2525235",
+                                  model.stringFromDate(movie.releaseDate),
                                   style: const TextStyle(
                                     color: Colors.grey,
                                   ),
