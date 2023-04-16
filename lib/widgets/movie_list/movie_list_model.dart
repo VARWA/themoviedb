@@ -8,7 +8,6 @@ import '../../domain/entity/movie.dart';
 class MovieListModel extends ChangeNotifier {
   final _apiClient = ApiClient();
   final _movies = <Movie>[];
-
   late int _currentPage;
   late int _totalPage;
   var _isLoadingInProgress = false;
