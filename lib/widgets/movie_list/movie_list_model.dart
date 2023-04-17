@@ -11,7 +11,6 @@ class MovieListModel extends ChangeNotifier {
   final _movies = <Movie>[];
   late int _currentPage;
   late int _totalPage;
-
   var _isLoadingInProgress = false;
 
   List<Movie> get movies => List.unmodifiable(_movies);
