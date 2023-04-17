@@ -33,6 +33,7 @@ class MovieListWidget extends StatelessWidget {
                         border:
                             Border.all(color: Colors.black.withOpacity(0.2)),
                         borderRadius:
+
                             const BorderRadius.all(Radius.circular(10)),
                         boxShadow: [
                           BoxShadow(
