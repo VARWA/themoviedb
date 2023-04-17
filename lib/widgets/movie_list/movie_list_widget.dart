@@ -37,6 +37,7 @@ class MovieListWidget extends StatelessWidget {
                             const BorderRadius.all(Radius.circular(10)),
                         boxShadow: [
                           BoxShadow(
+
                             color: Colors.black.withOpacity(0.1),
                             blurRadius: 8,
                             offset: const Offset(0, 2),
