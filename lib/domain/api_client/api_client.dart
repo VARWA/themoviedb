@@ -112,11 +112,11 @@ class ApiClient {
   }
 
   Future<PopularMovieResponse> popularMovie(int page, String locale) async {
-    final parser = (dynamic json) {
+    parser(dynamic json) {
       final jsonMap = json as Map<String, dynamic>;
       final token = PopularMovieResponse.fromJson(jsonMap);
       return token;
-    };
+    }
 
     final result = _get(
       '/movie/popular',
@@ -135,11 +135,11 @@ class ApiClient {
     required String password,
     required String requestToken,
   }) async {
-    String parser(dynamic json) {
+    final parser = (dynamic json) {
       final jsonMap = json as Map<String, dynamic>;
-      final sessionId = json['session_id'] as String;
-      return sessionId;
-    }
+      final token = jsonMap['request_token'] as String;
+      return token;
+    };
 
     final parameters = <String, dynamic>{
       'username': username,

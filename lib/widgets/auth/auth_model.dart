@@ -34,6 +34,7 @@ class AuthModel extends ChangeNotifier {
     _isAuthProgress = true;
     notifyListeners();
     String? sessionId;
+
     try {
       sessionId = await _apiClient.auth(
         username: login,
@@ -52,7 +53,8 @@ class AuthModel extends ChangeNotifier {
           _errorMessage = 'Произошла ошибка. Попробуйте еще раз';
           break;
       }
-      _errorMessage = 'Сервер недоступен';
+
+       _errorMessage = 'Сервер недоступен';
     }
     _isAuthProgress = false;
     if (_errorMessage != null) {
