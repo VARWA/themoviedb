@@ -7,6 +7,7 @@ import 'movie_list_model.dart';
 class MovieListWidget extends StatelessWidget {
   const MovieListWidget({Key? key}) : super(key: key);
 
+
   @override
   Widget build(BuildContext context) {
     final model = NotifierProvider.watch<MovieListModel>(context);
@@ -33,9 +34,11 @@ class MovieListWidget extends StatelessWidget {
                         border:
                             Border.all(color: Colors.black.withOpacity(0.2)),
                         borderRadius:
+
                             const BorderRadius.all(Radius.circular(10)),
                         boxShadow: [
                           BoxShadow(
+
                             color: Colors.black.withOpacity(0.1),
                             blurRadius: 8,
                             offset: const Offset(0, 2),

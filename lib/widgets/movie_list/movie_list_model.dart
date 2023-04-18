@@ -5,6 +5,7 @@ import 'package:themoviedb/ui/navigation/main_navigation.dart';
 
 import '../../domain/entity/movie.dart';
 
+
 class MovieListModel extends ChangeNotifier {
   final _apiClient = ApiClient();
   final _movies = <Movie>[];
