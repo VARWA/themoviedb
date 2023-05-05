@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import 'movie_date_parser.dart';
+
 part 'movie.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
@@ -24,7 +26,8 @@ class Movie {
     required this.adult,
     required this.overview,
     // ignore: invalid_annotation_target
-    @JsonKey(fromJson: _parseDateFromString) required this.releaseDate,
+    @JsonKey(fromJson: parseMovieDateFromString)
+    required this.releaseDate,
     required this.genre_ids,
     required this.id,
     required this.originalTitle,
@@ -41,8 +44,4 @@ class Movie {
 
   Map<String, dynamic> toJson() => _$MovieToJson(this);
 
-  static DateTime? _parseDateFromString(String? rawDate) {
-    if (rawDate == null || rawDate.isEmpty) return null;
-    return DateTime.tryParse(rawDate);
-  }
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:themoviedb/Library/Widgets/Inhereted/provider.dart';
 import 'package:themoviedb/widgets/movie_list/movie_list_model.dart';
 
-import '../widgets/movie_list/movie_list_widget.dart';
+import '../movie_list/movie_list_widget.dart';
 
 class MainScreenWidget extends StatefulWidget {
   const MainScreenWidget({Key? key}) : super(key: key);
@@ -43,7 +43,11 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
         index: _selectedTab,
         children: [
           const Text("Новости"),
-          NotifierProvider(model: movieListModel, child: MovieListWidget()),
+          NotifierProvider(
+            create: () => movieListModel,
+            isManagingModel: false,
+            child: MovieListWidget(),
+          ),
           const Text("Сериалы"),
         ],
       ),
