@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:themoviedb/domain/entity/movie_date_parser.dart';
+import 'package:themoviedb/domain/entity/movie_details_credits.dart';
 
 part 'movie_details.g.dart';
 
@@ -31,6 +32,8 @@ class MovieDetails {
   final bool video;
   final double voteAverage;
   final int voteCount;
+  final MovieDetailsCredits credits;
+
   MovieDetails({
     required this.adult,
     required this.backdropPath,
@@ -57,6 +60,7 @@ class MovieDetails {
     required this.video,
     required this.voteAverage,
     required this.voteCount,
+    required this.credits,
   });
 
   factory MovieDetails.fromJson(Map<String, dynamic> json) =>
@@ -79,6 +83,7 @@ class BelongsToCollection {
 class Genre {
   final int id;
   final String name;
+
   Genre({
     required this.id,
     required this.name,
@@ -95,6 +100,7 @@ class ProductionCompanie {
   final String? logoPath;
   final String name;
   final String originCountry;
+
   ProductionCompanie({
     required this.id,
     required this.logoPath,
@@ -113,6 +119,7 @@ class ProductionCountrie {
   @JsonKey(name: 'iso_3166_1')
   final String iso;
   final String name;
+
   ProductionCountrie({
     required this.iso,
     required this.name,
@@ -134,6 +141,7 @@ class SpokenLanguage {
     required this.iso,
     required this.name,
   });
+
   factory SpokenLanguage.fromJson(Map<String, dynamic> json) =>
       _$SpokenLanguageFromJson(json);
 
