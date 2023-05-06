@@ -154,11 +154,11 @@ class ApiClient {
   }
 
   Future<MovieDetails> movieDetails(int movieId, String locale) async {
-    parser(dynamic json) {
+    final parser = (dynamic json) {
       final jsonMap = json as Map<String, dynamic>;
       final token = MovieDetails.fromJson(jsonMap);
       return token;
-    }
+    };
 
     final result = _get(
       '/movie/$movieId',

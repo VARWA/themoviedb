@@ -15,7 +15,7 @@ MovieDetails _$MovieDetailsFromJson(Map<String, dynamic> json) => MovieDetails(
               json['belongs_to_collection'] as Map<String, dynamic>),
       budget: json['budget'] as int,
       genres: (json['genres'] as List<dynamic>)
-          .map((e) => Genres.fromJson(e as Map<String, dynamic>))
+          .map((e) => Genre.fromJson(e as Map<String, dynamic>))
           .toList(),
       homepage: json['homepage'] as String?,
       id: json['id'] as int,
@@ -26,16 +26,16 @@ MovieDetails _$MovieDetailsFromJson(Map<String, dynamic> json) => MovieDetails(
       popularity: (json['popularity'] as num).toDouble(),
       posterPath: json['poster_path'] as String?,
       productionCompanies: (json['production_companies'] as List<dynamic>)
-          .map((e) => ProductionCompanies.fromJson(e as Map<String, dynamic>))
+          .map((e) => ProductionCompanie.fromJson(e as Map<String, dynamic>))
           .toList(),
       productionCountries: (json['production_countries'] as List<dynamic>)
-          .map((e) => ProductionCountries.fromJson(e as Map<String, dynamic>))
+          .map((e) => ProductionCountrie.fromJson(e as Map<String, dynamic>))
           .toList(),
       releaseDate: parseMovieDateFromString(json['release_date'] as String?),
       revenue: json['revenue'] as int,
       runtime: json['runtime'] as int?,
       spokenLanguages: (json['spoken_languages'] as List<dynamic>)
-          .map((e) => SpokenLanguages.fromJson(e as Map<String, dynamic>))
+          .map((e) => SpokenLanguage.fromJson(e as Map<String, dynamic>))
           .toList(),
       status: json['status'] as String,
       tagline: json['tagline'] as String?,
@@ -84,29 +84,25 @@ Map<String, dynamic> _$BelongsToCollectionToJson(
         BelongsToCollection instance) =>
     <String, dynamic>{};
 
-ProductionCountries _$ProductionCountriesFromJson(Map<String, dynamic> json) =>
-    ProductionCountries(
-      iso: json['iso31661'] as String,
+Genre _$GenreFromJson(Map<String, dynamic> json) => Genre(
+      id: json['id'] as int,
       name: json['name'] as String,
     );
 
-Map<String, dynamic> _$ProductionCountriesToJson(
-        ProductionCountries instance) =>
-    <String, dynamic>{
-      'iso31661': instance.iso,
+Map<String, dynamic> _$GenreToJson(Genre instance) => <String, dynamic>{
+      'id': instance.id,
       'name': instance.name,
     };
 
-ProductionCompanies _$ProductionCompaniesFromJson(Map<String, dynamic> json) =>
-    ProductionCompanies(
+ProductionCompanie _$ProductionCompanieFromJson(Map<String, dynamic> json) =>
+    ProductionCompanie(
       id: json['id'] as int,
       logoPath: json['logo_path'] as String?,
       name: json['name'] as String,
       originCountry: json['origin_country'] as String,
     );
 
-Map<String, dynamic> _$ProductionCompaniesToJson(
-        ProductionCompanies instance) =>
+Map<String, dynamic> _$ProductionCompanieToJson(ProductionCompanie instance) =>
     <String, dynamic>{
       'id': instance.id,
       'logo_path': instance.logoPath,
@@ -114,24 +110,26 @@ Map<String, dynamic> _$ProductionCompaniesToJson(
       'origin_country': instance.originCountry,
     };
 
-Genres _$GenresFromJson(Map<String, dynamic> json) => Genres(
-      id: json['id'] as int,
+ProductionCountrie _$ProductionCountrieFromJson(Map<String, dynamic> json) =>
+    ProductionCountrie(
+      iso: json['iso_3166_1'] as String,
       name: json['name'] as String,
     );
 
-Map<String, dynamic> _$GenresToJson(Genres instance) => <String, dynamic>{
-      'id': instance.id,
+Map<String, dynamic> _$ProductionCountrieToJson(ProductionCountrie instance) =>
+    <String, dynamic>{
+      'iso_3166_1': instance.iso,
       'name': instance.name,
     };
 
-SpokenLanguages _$SpokenLanguagesFromJson(Map<String, dynamic> json) =>
-    SpokenLanguages(
-      iso: json['iso6391'] as String,
+SpokenLanguage _$SpokenLanguageFromJson(Map<String, dynamic> json) =>
+    SpokenLanguage(
+      iso: json['iso_639_1'] as String,
       name: json['name'] as String,
     );
 
-Map<String, dynamic> _$SpokenLanguagesToJson(SpokenLanguages instance) =>
+Map<String, dynamic> _$SpokenLanguageToJson(SpokenLanguage instance) =>
     <String, dynamic>{
-      'iso6391': instance.iso,
+      'iso_639_1': instance.iso,
       'name': instance.name,
     };
