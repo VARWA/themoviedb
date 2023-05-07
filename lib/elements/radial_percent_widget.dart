@@ -27,14 +27,14 @@ class RadialPercentWidget extends StatelessWidget {
       children: [
         CustomPaint(
             painter: MyPainter(
-              percent: percent,
-              fillColor: fillColor,
-              lineColor: lineColor,
-              freeColor: freeColor,
-              lineWidth: lineWidth,
-            )),
+          percent: percent,
+          fillColor: fillColor,
+          lineColor: lineColor,
+          freeColor: freeColor,
+          lineWidth: lineWidth,
+        )),
         Padding(
-            padding: EdgeInsets.all(11),
+            padding: const EdgeInsets.all(11),
             child: Center(
               child: child,
             ))
@@ -52,10 +52,10 @@ class MyPainter extends CustomPainter {
 
   MyPainter(
       {required this.percent,
-        required this.fillColor,
-        required this.lineColor,
-        required this.freeColor,
-        required this.lineWidth});
+      required this.fillColor,
+      required this.lineColor,
+      required this.freeColor,
+      required this.lineWidth});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -102,10 +102,10 @@ class MyPainter extends CustomPainter {
   }
 
   Rect calculateArcsRect(Size size) {
-    final linesMargin = 3;
+    const linesMargin = 3;
     final offest = lineWidth / 2 + linesMargin;
     final arcRect = Offset(offest, offest) &
-    Size(size.width - offest * 2, size.height - offest * 2);
+        Size(size.width - offest * 2, size.height - offest * 2);
     return arcRect;
   }
 

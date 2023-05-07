@@ -26,8 +26,8 @@ class Movie {
     required this.adult,
     required this.overview,
     // ignore: invalid_annotation_target
-    @JsonKey(fromJson: parseMovieDateFromString)
-    required this.releaseDate,
+    @JsonKey(fromJson: parseMovieDateFromString) required this.releaseDate,
+    // ignore: non_constant_identifier_names
     required this.genre_ids,
     required this.id,
     required this.originalTitle,
@@ -43,5 +43,4 @@ class Movie {
   factory Movie.fromJson(Map<String, dynamic> json) => _$MovieFromJson(json);
 
   Map<String, dynamic> toJson() => _$MovieToJson(this);
-
 }

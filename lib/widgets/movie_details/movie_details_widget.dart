@@ -38,7 +38,6 @@ class _TitleWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = NotifierProvider.watch<MovieDetailsModel>(context);
-    print(model?.movieDetails?.title);
     return Text(model?.movieDetails?.title ?? 'Загрузка...');
   }
 }
