@@ -1,12 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:themoviedb/domain/entity/movie_details.dart';
 import 'package:themoviedb/domain/entity/popular_movie_response.dart';
 
 // ignore: constant_identifier_names
-enum ApiClientExceptionType { Network, Auth, Other }
+enum ApiClientExceptionType { Network, Auth, Other, SessionExpired }
 
 class ApiClientException implements Exception {
   final ApiClientExceptionType type;
@@ -311,6 +310,8 @@ void _validateResponse(HttpClientResponse response, dynamic json) {
     final code = status is int ? status : 0;
     if (code == 30) {
       throw ApiClientException(ApiClientExceptionType.Auth);
+    } else if (code == 3) {
+      throw ApiClientExceptionType.SessionExpired;
     } else {
       throw ApiClientException(ApiClientExceptionType.Other);
     }
