@@ -13,6 +13,7 @@ class NotifierProvider<Model extends ChangeNotifier> extends StatefulWidget {
   }) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _NotifierProviderState<Model> createState() =>
       _NotifierProviderState<Model>();
 

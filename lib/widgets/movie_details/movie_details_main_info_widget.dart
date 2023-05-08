@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:themoviedb/domain/entity/movie_details_credits.dart';
 import 'package:themoviedb/elements/radial_percent_widget.dart';
+import 'package:themoviedb/ui/navigation/main_navigation.dart';
 import 'package:themoviedb/widgets/movie_details/movie_details_model.dart';
 
 import '../../Library/Widgets/Inhereted/provider.dart';
@@ -14,29 +15,29 @@ class MovieDetailsMainInfoWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _TopPosterWidget(),
-        Padding(
-          padding: const EdgeInsets.all(25.0),
+        const _TopPosterWidget(),
+        const Padding(
+          padding: EdgeInsets.all(25.0),
           child: _MovieNameWidget(),
         ),
-        _ScoreWidget(),
-        _SummeryWidget(),
+        const _ScoreWidget(),
+        const _SummeryWidget(),
         Padding(
           padding: const EdgeInsets.all(10.0),
-          child: _OverviewWidget(),
+          child: _overviewWidget(),
         ),
-        Padding(
-            padding: const EdgeInsets.all(10.0), child: _DescriptionWidget()),
-        SizedBox(height: 30),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+        const Padding(
+            padding: EdgeInsets.all(10.0), child: _DescriptionWidget()),
+        const SizedBox(height: 30),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10),
           child: _PeopleWidgets(),
         )
       ],
     );
   }
 
-  Text _OverviewWidget() {
+  Text _overviewWidget() {
     return const Text(
       "Overview",
       style: TextStyle(
@@ -188,7 +189,9 @@ class _ScoreWidget extends StatelessWidget {
         NotifierProvider.watch<MovieDetailsModel>(context)?.movieDetails;
     var voteAverage = movieDetails?.voteAverage ?? 0;
     voteAverage = voteAverage * 10;
-
+    final videos = movieDetails?.videos?.results
+        .where((video) => video.type == 'Trailer' && video.site == 'YouTube');
+    final trailerKey = videos?.isNotEmpty == true ? videos?.first.key : null;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -213,14 +216,19 @@ class _ScoreWidget extends StatelessWidget {
               ],
             )),
         Container(width: 1, height: 15, color: Colors.grey),
-        TextButton(
-            onPressed: () {},
-            child: Row(
-              children: const [
-                Icon(Icons.play_arrow),
-                Text("Play Trailer"),
-              ],
-            )),
+        trailerKey != null
+            ? TextButton(
+                onPressed: () => Navigator.of(context).pushNamed(
+                    MainNavigationRouteNames.movieTrailerWidget,
+                    arguments: trailerKey),
+                child: Row(
+                  children: const [
+                    Icon(Icons.play_arrow),
+                    Text("Play Trailer"),
+                  ],
+                ),
+              )
+            : const SizedBox.shrink(),
       ],
     );
   }
@@ -254,7 +262,7 @@ class _PeopleWidgets extends StatelessWidget {
 class _PeopleWidgetsRow extends StatelessWidget {
   final List<Employee> employes;
 
-  _PeopleWidgetsRow({Key? key, required this.employes}) : super(key: key);
+  const _PeopleWidgetsRow({Key? key, required this.employes}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

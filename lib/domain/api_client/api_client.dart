@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:themoviedb/domain/entity/movie_details.dart';
 import 'package:themoviedb/domain/entity/popular_movie_response.dart';
 
+// ignore: constant_identifier_names
 enum ApiClientExceptionType { Network, Auth, Other }
 
 class ApiClientException implements Exception {
@@ -154,6 +155,7 @@ class ApiClient {
   }
 
   Future<MovieDetails> movieDetails(int movieId, String locale) async {
+    // ignore: prefer_function_declarations_over_variables
     final parser = (dynamic json) {
       final jsonMap = json as Map<String, dynamic>;
       final token = MovieDetails.fromJson(jsonMap);
@@ -164,7 +166,7 @@ class ApiClient {
       '/movie/$movieId',
       parser,
       <String, dynamic>{
-        'append_to_response': 'credits',
+        'append_to_response': 'credits,videos',
         'api_key': _apiKey,
         'language': locale,
       },
@@ -177,6 +179,7 @@ class ApiClient {
     required String password,
     required String requestToken,
   }) async {
+    // ignore: prefer_function_declarations_over_variables
     final parser = (dynamic json) {
       final jsonMap = json as Map<String, dynamic>;
       final token = jsonMap['request_token'] as String;

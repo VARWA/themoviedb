@@ -54,7 +54,7 @@ class AuthModel extends ChangeNotifier {
           break;
       }
 
-       _errorMessage = 'Сервер недоступен';
+      _errorMessage = 'Сервер недоступен';
     }
     _isAuthProgress = false;
     if (_errorMessage != null) {
